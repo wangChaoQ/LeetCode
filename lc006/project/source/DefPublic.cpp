@@ -12,6 +12,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <string.h>
+#include <cmath>
 #include "DefPublic.h"
 
 using namespace std;
@@ -135,16 +136,16 @@ string longestPalindrome(string s)
     // 初始化
     int maxlen = 1;
     int sentry = 0;
-    // 输出二维数组的状态
-    for(vector<bool> a : dynamic)
-    {
-        for(bool b : a)
-        {
-            cout << b;
-        }
-        cout << endl;
-    }
-    cout << endl;
+    // // 输出二维数组的状态
+    // for(vector<bool> a : dynamic)
+    // {
+    //     for(bool b : a)
+    //     {
+    //         cout << b;
+    //     }
+    //     cout << endl;
+    // }
+    // cout << endl;
 
     for (int len = 2; len < size + 1; len++)
     {
@@ -155,25 +156,61 @@ string longestPalindrome(string s)
             {
                 dynamic[i][j] = true;
                 maxlen = maxlen > len ? maxlen : len;
-                if(maxlen >= len)           // 此处的等号很重要，避免 maxlen=2 的时候 sentry不被赋值
-                {
+                if(maxlen > len)
                     sentry = i;
-                    printf("sentry :%d\n", sentry);
-                }
-                
             }
         }
     }
 
-    // 输出二维数组的状态
-    for(vector<bool> a : dynamic)
-    {
-        for(bool b : a)
-        {
-            cout << b;
-        }
-        cout << endl;
-    }
-    cout << endl;
+    // // 输出二维数组的状态
+    // for(vector<bool> a : dynamic)
+    // {
+    //     for(bool b : a)
+    //     {
+    //         cout << b;
+    //     }
+    //     cout << endl;
+    // }
+    // cout << endl;
     return s.substr(sentry, maxlen);
+}
+
+std::string convert(std::string s, int numRows)
+{
+    // if(numRows == 1)
+    //     return s;
+
+    std::string strArray[numRows];      // 创建numRows个字符串数组，每个字符串保存每行的字符
+
+    // int column = (numRows - 1) * 2;     // 小心numRows == 1时，完整行的间距不满足这个式子,所以要单独考虑 numRows == 1 的情况
+    int column = pow(2, (numRows - 1));     // 这个式子包含所有情况，不需要单独考虑numRows == 1 的情况
+
+    for(int i = 0; i < s.length(); i++)     // 遍历每个元素
+    {
+        for(int row = 0; row < numRows; row++)
+        {
+            if (row == 0 || row == numRows - 1)
+            {
+                if(column * i + row < s.length())
+                    strArray[row] += s[column * i + row];
+            }
+            else
+            {
+                if(column * i + row - row * 2 < s.length())
+                    strArray[row] += s[column * i - row];
+                    // strArray[row] += s[column * i + row - row * 2];
+                if(column * i + row < s.length())
+                    strArray[row] += s[column * i + row];
+            }
+        }
+    }
+
+    std::string zstr;
+    for(int row = 0; row < numRows; row++)
+    {
+        cout << strArray[row] << endl;
+        zstr += strArray[row];
+    }
+    cout << zstr << endl;
+    return zstr;
 }
