@@ -35,5 +35,6 @@ std::string longestPalindrome(std::string s);                   // 最长回文�
 std::string convert(std::string s, int numRows);                // N 字形变换
 int reverse(int x);                                             // 整数反转(假设机器不支持64位存储)
 int myAtoi(std::string s);                                      // 自定义的字符串转整型
+bool isPalindrome(int x);                                       // 判断是否为回文数
 
 #endif // _DEFPUBLIC_H__
